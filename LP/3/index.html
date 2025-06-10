@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM.AUTH [3D]</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Three.js for the 3D background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Google Font for a modern, clean look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom styles for the 3D scene */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0c0a18; /* A very dark purple/blue */
+            color: #e5e7eb;
+            overflow: hidden; /* Prevent scrollbars from the 3D scene */
+        }
+        
+        /* The canvas for the Three.js background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Container for the 3D cube */
+        .scene {
+            width: 100%;
+            height: 100vh;
+            perspective: 1000px; /* How far the scene is from the viewer */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cube {
+            width: 380px; /* Width of the form */
+            height: 420px; /* Height of the form */
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        }
+
+        /* JavaScript will add this class to rotate the cube */
+        .cube.show-signup {
+            transform: translateZ(-190px) rotateY(-90deg);
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 380px;
+            height: 420px;
+            padding: 2rem;
+            background-color: rgba(17, 24, 39, 0.8); /* bg-gray-900 with opacity */
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 255, 100, 0.2);
+            box-shadow: 0 0 30px rgba(0, 255, 100, 0.1);
+            border-radius: 1rem;
+        }
+
+        /* Position each face of the cube in 3D space */
+        .cube-face-front  { transform: rotateY(  0deg) translateZ(190px); }
+        .cube-face-back   { transform: rotateY(180deg) translateZ(190px); }
+        .cube-face-right  { transform: rotateY( 90deg) translateZ(190px); }
+        .cube-face-left   { transform: rotateY(-90deg) translateZ(190px); }
+        
+        /* Input field styling */
+        .form-input {
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            color: #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #00ff64;
+            box-shadow: 0 0 10px rgba(0, 255, 100, 0.5);
+        }
+
+        /* Login button styling */
+        .login-btn {
+            background-color: #00ff64;
+            color: #111827;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 100, 0.4);
+        }
+
+        .login-btn:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 100, 0.7);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Three.js background canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Main 3D scene container -->
+    <div class="scene">
+        <div class="cube" id="cube">
+            <!-- Front Face: Sign In Form -->
+            <div class="cube-face cube-face-front">
+                <h2 class="text-3xl font-bold text-center text-white mb-6">SIGN IN</h2>
+                <form class="flex flex-col space-y-4">
+                    <input type="text" placeholder="Username" class="form-input w-full p-3 rounded-lg text-sm" required>
+                    <input type="password" placeholder="Password" class="form-input w-full p-3 rounded-lg text-sm" required>
+                    <div class="flex justify-between items-center text-xs text-gray-400">
+                        <a href="#" class="hover:text-green-400 transition-colors">Forgot Password?</a>
+                        <p>No account? <a href="#" id="show-signup" class="font-semibold text-green-400 hover:text-green-300 transition-colors">Sign Up</a></p>
+                    </div>
+                    <button type="submit" class="login-btn w-full py-3 rounded-lg mt-4">Login</button>
+                </form>
+            </div>
+            
+            <!-- Left Face: Sign Up Form -->
+            <div class="cube-face cube-face-left">
+                 <h2 class="text-3xl font-bold text-center text-white mb-6">CREATE ACCOUNT</h2>
+                <form class="flex flex-col space-y-4">
+                    <input type="email" placeholder="Email Address" class="form-input w-full p-3 rounded-lg text-sm" required>
+                    <input type="text" placeholder="Username" class="form-input w-full p-3 rounded-lg text-sm" required>
+                    <input type="password" placeholder="Password" class="form-input w-full p-3 rounded-lg text-sm" required>
+                     <p class="text-center text-xs text-gray-400">
+                        Have an account? <a href="#" id="show-login" class="font-semibold text-green-400 hover:text-green-300 transition-colors">Sign In</a>
+                    </p>
+                    <button type="submit" class="login-btn w-full py-3 rounded-lg mt-4">Sign Up</button>
+                </form>
+            </div>
+
+            <!-- Other faces for visual completeness (can be styled further) -->
+            <div class="cube-face cube-face-back"></div>
+            <div class="cube-face cube-face-right"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cube = document.getElementById('cube');
+            const showSignupBtn = document.getElementById('show-signup');
+            const showLoginBtn = document.getElementById('show-login');
+
+            // --- Event Listeners for Cube Rotation ---
+            showSignupBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                cube.classList.add('show-signup');
+            });
+
+            showLoginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                cube.classList.remove('show-signup');
+            });
+
+
+            // --- Three.js Background Animation ---
+            let scene, camera, renderer, stars;
+
+            function init() {
+                // Scene
+                scene = new THREE.Scene();
+
+                // Camera
+                camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+                camera.position.z = 5;
+
+                // Renderer
+                const canvas = document.getElementById('bg-canvas');
+                renderer = new THREE.WebGLRenderer({
+                    canvas: canvas,
+                    alpha: true // Make canvas transparent
+                });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+                // Star particles
+                const starGeometry = new THREE.BufferGeometry();
+                const starCount = 5000;
+                const posArray = new Float32Array(starCount * 3);
+                for(let i = 0; i < starCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 1000;
+                }
+                starGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                
+                const starMaterial = new THREE.PointsMaterial({
+                    size: 0.2,
+                    color: 0x00ff64, // Green stars
+                    blending: THREE.AdditiveBlending
+                });
+
+                stars = new THREE.Points(starGeometry, starMaterial);
+                scene.add(stars);
+
+                // Handle window resizing
+                window.addEventListener('resize', onWindowResize, false);
+
+                // Start animation
+                animate();
+            }
+
+            function animate() {
+                // Rotate stars for a dynamic effect
+                stars.rotation.x += 0.0001;
+                stars.rotation.y += 0.0002;
+                
+                renderer.render(scene, camera);
+                requestAnimationFrame(animate);
+            }
+
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            // Start the 3D background
+            init();
+        });
+    </script>
+
+</body>
+</html>
