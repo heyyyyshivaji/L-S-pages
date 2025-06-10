@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Access | Login</title> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="galaxy-particles"></div>
+
+    <div class="login-container">
+        <div class="brand-logo">
+            <span class="logo-text">ASTRAL_NET</span> </div>
+
+        <h1 class="welcome-message">Journey On.</h1> <form id="login-form">
+            <div class="input-group">
+                <label for="username">Stellar ID</label> <input type="text" id="username" required>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5z"/></svg>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Cosmic Key</label> <input type="password" id="password" required>
+                <span class="password-toggle">Reveal</span> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-4V6c0-1.1-.9-2-2-2s-2 .9-2 2v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+            </div>
+
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    Remember Stellar ID
+                </label>
+                <a href="#" class="forgot-password">Lost Cosmic Key?</a> </div>
+
+            <button type="submit" class="login-button">
+                Engage
+            </button>
+
+            <div class="signup-link">
+                New Voyager? <a href="#">Chart Course</a> </div>
+        </form>
+    </div>
+
+    <div id="notification-area"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

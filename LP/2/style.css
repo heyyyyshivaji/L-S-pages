@@ -1,0 +1,328 @@
+/* Galaxy Theme Variables */
+:root {
+    --bg-dark-deep: #0D0D1A; /* Very dark blue-purple */
+    --bg-mid-nebula: #250C3A; /* Darker purple for nebula core */
+    --bg-light-nebula: #4A1F6B; /* Lighter purple/pink for nebula edges */
+    --accent-galaxy-blue: #6A5ACD; /* Medium blue accent */
+    --accent-galaxy-pink: #D8BFD8; /* Light thistle/pink accent */
+
+    --form-background: rgba(255, 255, 255, 0.08); /* Very translucent white */
+    --form-border: rgba(255, 255, 255, 0.15); /* Subtle white border */
+    --text-color: #E0E0E0; /* Light grey text */
+    --light-text-color: #B0B0B0; /* Lighter grey for secondary text */
+    --input-line-color: rgba(255, 255, 255, 0.4);
+    --focus-glow: var(--accent-galaxy-blue);
+    --button-bg: linear-gradient(135deg, var(--accent-galaxy-blue) 0%, var(--accent-galaxy-pink) 100%);
+    --button-hover-bg: linear-gradient(135deg, #5A4ABF 0%, #C4AEBE 100%); /* Slightly darker on hover */
+    --font-primary: 'Inter', sans-serif;
+    --transition-speed: 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    color: var(--text-color);
+    /* Multi-layered gradient for nebula effect */
+    background:
+        radial-gradient(circle at 10% 90%, rgba(74, 31, 107, 0.2) 0%, transparent 50%), /* Bottom-left nebula cloud */
+        radial-gradient(circle at 90% 10%, rgba(90, 64, 205, 0.2) 0%, transparent 50%), /* Top-right nebula cloud */
+        radial-gradient(ellipse at center, var(--bg-light-nebula) 0%, var(--bg-mid-nebula) 40%, var(--bg-dark-deep) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Particles.js container for stars */
+#galaxy-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: transparent; /* Overlay on the body's gradient */
+    z-index: -1; /* Behind the login box */
+}
+
+.login-container {
+    background: var(--form-background);
+    border: 1px solid var(--form-border);
+    border-radius: 12px;
+    padding: 40px 50px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.3); /* Soft, subtle glow */
+    z-index: 1;
+    animation: fadeInSlideUp 0.8s forwards;
+}
+
+@keyframes fadeInSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.brand-logo {
+    margin-bottom: 30px;
+}
+
+.logo-text {
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--text-color); /* Lighter logo color */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Subtle glow */
+    letter-spacing: 1px;
+}
+
+.welcome-message {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-bottom: 35px;
+    color: var(--text-color);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group label {
+    display: block;
+    color: var(--light-text-color);
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    border-bottom: 1px solid var(--input-line-color);
+    background: rgba(255, 255, 255, 0.05); /* Very slight background */
+    color: var(--text-color);
+    font-size: 1em;
+    outline: none;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.input-group input:focus {
+    border-color: var(--focus-glow);
+    box-shadow: 0 0 10px rgba(106, 90, 205, 0.3); /* Blue glow on focus */
+}
+
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.input-group svg {
+    position: absolute;
+    right: 0px;
+    bottom: 8px;
+    fill: var(--light-text-color);
+    width: 18px;
+    height: 18px;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 0px;
+    bottom: 8px;
+    font-size: 0.8em;
+    color: var(--light-text-color);
+    cursor: pointer;
+    transition: color var(--transition-speed);
+}
+
+.password-toggle:hover {
+    color: var(--focus-glow);
+    text-shadow: 0 0 5px rgba(106, 90, 205, 0.2);
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 0.85em;
+    color: var(--light-text-color);
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.remember-me input {
+    margin-right: 5px;
+    accent-color: var(--accent-galaxy-blue);
+    cursor: pointer;
+}
+
+.forgot-password {
+    color: var(--light-text-color);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+.forgot-password:hover {
+    color: var(--accent-galaxy-blue);
+    text-decoration: underline;
+    text-shadow: 0 0 5px rgba(106, 90, 205, 0.2);
+}
+
+.login-button {
+    background: var(--button-bg);
+    border: none;
+    border-radius: 25px;
+    padding: 15px 30px;
+    color: #FFF;
+    font-size: 1.15em;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background 0.4s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.login-button:hover {
+    background: var(--button-hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.login-button:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+}
+
+.signup-link {
+    margin-top: 30px;
+    font-size: 0.95em;
+    color: var(--light-text-color);
+}
+
+.signup-link a {
+    color: var(--accent-galaxy-pink); /* Use the pink accent here */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--transition-speed);
+}
+
+.signup-link a:hover {
+    color: var(--accent-galaxy-blue);
+    text-shadow: 0 0 5px rgba(216, 191, 216, 0.2);
+}
+
+#notification-area {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+}
+
+.notification {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-color);
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    border-left: 5px solid;
+    max-width: 300px;
+}
+
+.notification.success {
+    border-color: #4CAF50; /* Green for success */
+}
+
+.notification.error {
+    border-color: #F44336; /* Red for error */
+    color: #F44336; /* Red text for error */
+}
+
+.notification.hide {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.login-container.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    .login-container {
+        padding: 30px 30px;
+        margin: 15px;
+        width: calc(100% - 30px);
+    }
+
+    .welcome-message {
+        font-size: 1.6em;
+        margin-bottom: 30px;
+    }
+
+    .brand-logo {
+        margin-bottom: 25px;
+    }
+
+    .logo-text {
+        font-size: 2em;
+    }
+
+    .input-group label {
+        font-size: 0.85em;
+    }
+
+    .input-group input {
+        font-size: 0.95em;
+        padding: 8px 12px;
+    }
+
+    .input-group svg, .password-toggle {
+        right: 5px;
+        bottom: 5px;
+        width: 16px;
+        height: 16px;
+        font-size: 0.75em;
+    }
+
+    .login-button {
+        font-size: 1.05em;
+        padding: 12px 25px;
+    }
+
+    .form-options, .signup-link {
+        font-size: 0.8em;
+    }
+}
